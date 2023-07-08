@@ -23,22 +23,22 @@ runs:
     - run: mkdir -p ./files
       shell: bash
 
+    - shell: bash
+      run: echo "Upload reports? => ${{ inputs.SAVE_REPORTS }}"
+
     - name: Unit tests
-      if: ${{ !inputs.SAVE_REPORTS }}
+      if: inputs.SAVE_REPORTS == 'false'
       shell: bash
       run: go test "./..."
 
     - name: Unit tests & generate coverage and report
-      if: ${{ inputs.SAVE_REPORTS }}
+      if: inputs.SAVE_REPORTS == 'true'
       shell: bash
       run: go test "./..." -coverprofile="./files/coverage.out" -covermode=count -json > ./files/report.json
 
-    - shell: bash
-      run: echo "Upload reports? => ${{ inputs.SAVE_REPORTS }}"
-
     - name: Upload coverage.out
       uses: actions/upload-artifact@v3
-      if: ${{ inputs.SAVE_REPORTS }}
+      if: inputs.SAVE_REPORTS == 'true'
       with:
         name: coverage.out
         path: ./files/coverage.out
@@ -46,7 +46,7 @@ runs:
 
     - name: Upload report.json
       uses: actions/upload-artifact@v3
-      if: ${{ inputs.SAVE_REPORTS }}
+      if: inputs.SAVE_REPORTS == 'true'
       with:
         name: report.json
         path: ./files/report.json
