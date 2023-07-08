@@ -56,6 +56,27 @@ jobs:
 
 ## Sonar
 
+Need to have `sonar-project.properties`:
+
+```
+sonar.language=go
+sonar.sourceEncoding=UTF-8
+sonar.projectKey=
+sonar.projectName=
+sonar.organization=
+
+sonar.exclusions=**/*_test.go,**/*_generated*.go,**/*_generated/**,**/vendor/**
+sonar.test.inclusions=**/*_test.go
+sonar.test.exclusions=**/*_generated*.go,**/*_generated/**,**/vendor/**
+
+# sonar.verbose=true
+
+# These are set in the action:
+#sonar.go.tests.reportPath=
+#sonar.go.coverage.reportPaths=
+#sonar.go.golangci-lint.reportPaths=
+```
+
 ### Sonar (for unit and integration tests)
 
 Uploads the unit and integration tests reports to SonarCloud.
